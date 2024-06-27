@@ -376,7 +376,11 @@ MonoBehaviour:
   - {fileID: 2077882296}
   - {fileID: 902084180}
   - {fileID: 1481927391}
-  _enemyPrefab: {fileID: -5740858575723719518, guid: 37b42f8084be34049933971d29fc9e27, type: 3}
+  _enemyPrefabs:
+  - {fileID: 3148496133533968679, guid: eb7f4bb5b658cd54181c21cb2a8a3a60, type: 3}
+  - {fileID: 8365736455085301449, guid: 7f1bdfb7ebc75ad48b16619c63d3dc29, type: 3}
+  - {fileID: 719021460952479030, guid: 2f4cd08aef138114190f700fca355d29, type: 3}
+  - {fileID: 1212286780529937566, guid: da0fc844e599c294fa45c4276234b3d6, type: 3}
 --- !u!1 &902084176
 GameObject:
   m_ObjectHideFlags: 0
@@ -390,7 +394,7 @@ GameObject:
   - component: {fileID: 902084178}
   - component: {fileID: 902084177}
   m_Layer: 0
-  m_Name: SpawnPoint3
+  m_Name: BrownSpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -438,7 +442,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 33ba007f6d7a62c4baa987b8e3912070, type: 2}
+  - {fileID: 2100000, guid: 4e5f4502ff78eba4d9bb346f1e266ed5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -588,7 +592,7 @@ GameObject:
   - component: {fileID: 973772136}
   - component: {fileID: 973772135}
   m_Layer: 0
-  m_Name: SpawnPoint1
+  m_Name: RedSpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -694,7 +698,7 @@ GameObject:
   - component: {fileID: 1481927389}
   - component: {fileID: 1481927388}
   m_Layer: 0
-  m_Name: SpawnPoint4
+  m_Name: GreenSpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -742,7 +746,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 33ba007f6d7a62c4baa987b8e3912070, type: 2}
+  - {fileID: 2100000, guid: 230da27d1d513ad49b685db169bfaaa9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -800,7 +804,7 @@ GameObject:
   - component: {fileID: 2077882294}
   - component: {fileID: 2077882293}
   m_Layer: 0
-  m_Name: SpawnPoint2
+  m_Name: BlueSpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -848,7 +852,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 33ba007f6d7a62c4baa987b8e3912070, type: 2}
+  - {fileID: 2100000, guid: 7f154cda30a1eda4b9eab25b67b796ec, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
