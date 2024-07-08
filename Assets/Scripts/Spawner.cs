@@ -5,8 +5,7 @@ using UnityEngine.Pool;
 
 public class Spawner : MonoBehaviour
 {
-    [SerializeField] private List<Transform> _spawnPoints;
-    [SerializeField] private List<Enemy> _enemyPrefabs;
+    [SerializeField] private List<SpawnPoint> _spawnPoints;
 
     private ObjectPool<Enemy> _enemiesPool;
     private int _enemyPoolCapacity = 25;
@@ -26,9 +25,10 @@ public class Spawner : MonoBehaviour
     private Enemy CreateEnemy()
     {
         float randomYAngle = Random.Range(0f, 360f);
-        Enemy certainEnemy = DefineEnemy();
-        Enemy enemy = Instantiate(certainEnemy, GetSpawnPoint(certainEnemy).transform.position, Quaternion.Euler(0f, randomYAngle, 0f));
-
+        SpawnPoint ceratainSpawnPoint = GetSpawnPoint();
+        Enemy certainEnemy = DefineEnemy(ceratainSpawnPoint);
+        Enemy enemy = Instantiate(certainEnemy, ceratainSpawnPoint.transform.position, Quaternion.Euler(0f, randomYAngle, 0f));
+        DefineTarget(enemy, ceratainSpawnPoint);
         return enemy;
     }
 
@@ -49,14 +49,12 @@ public class Spawner : MonoBehaviour
         enemy.gameObject.SetActive(false);
     }
 
-    private Enemy DefineEnemy()
+    private Enemy DefineEnemy(SpawnPoint spawnPoint)
     {
-        int randomEnemy = Random.Range(0, _enemyPrefabs.Count);
-
-        return _enemyPrefabs[randomEnemy];
+         return spawnPoint.Enemy;
     }
 
-    private Transform GetSpawnPoint(Enemy enemy)
+    private SpawnPoint GetSpawnPoint()
     {
         int spawnPoint = Random.Range(0, _spawnPoints.Count);
 
@@ -73,6 +71,11 @@ public class Spawner : MonoBehaviour
 
             GetEnemy();
         }
+    }
+
+    private void DefineTarget(Enemy enemy, SpawnPoint spawnPoint)
+    {
+        enemy.Target = spawnPoint.Target;
     }
 
     private void GetEnemy()
