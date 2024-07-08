@@ -29,6 +29,7 @@ public class Spawner : MonoBehaviour
         Enemy certainEnemy = DefineEnemy(ceratainSpawnPoint);
         Enemy enemy = Instantiate(certainEnemy, ceratainSpawnPoint.transform.position, Quaternion.Euler(0f, randomYAngle, 0f));
         DefineTarget(enemy, ceratainSpawnPoint);
+
         return enemy;
     }
 
