@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7317118214226640955, guid: 16f88bac483bd004aa718dd62225897d, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7317118214241830333, guid: 16f88bac483bd004aa718dd62225897d, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -93,3 +97,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46d88d50a1bc6e64a8a6dc7ee45c344d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Target: {fileID: 0}

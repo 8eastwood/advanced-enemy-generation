@@ -25,10 +25,10 @@ public class Spawner : MonoBehaviour
     private Enemy CreateEnemy()
     {
         float randomYAngle = Random.Range(0f, 360f);
-        SpawnPoint ceratainSpawnPoint = GetSpawnPoint();
-        Enemy certainEnemy = DefineEnemy(ceratainSpawnPoint);
-        Enemy enemy = Instantiate(certainEnemy, ceratainSpawnPoint.transform.position, Quaternion.Euler(0f, randomYAngle, 0f));
-        DefineTarget(enemy, ceratainSpawnPoint);
+        SpawnPoint certainSpawnPoint = GetSpawnPoint();
+        Enemy certainEnemy = certainSpawnPoint.Enemy;
+        Enemy enemy = Instantiate(certainEnemy, certainSpawnPoint.transform.position, Quaternion.Euler(0f, randomYAngle, 0f));
+        DefineTarget(enemy, certainSpawnPoint);
 
         return enemy;
     }
@@ -48,11 +48,6 @@ public class Spawner : MonoBehaviour
     private void ReleaseInPool(Enemy enemy)
     {
         enemy.gameObject.SetActive(false);
-    }
-
-    private Enemy DefineEnemy(SpawnPoint spawnPoint)
-    {
-         return spawnPoint.Enemy;
     }
 
     private SpawnPoint GetSpawnPoint()
@@ -76,7 +71,7 @@ public class Spawner : MonoBehaviour
 
     private void DefineTarget(Enemy enemy, SpawnPoint spawnPoint)
     {
-        enemy.Target = spawnPoint.Target;
+        enemy.GetTarget(spawnPoint.Target);
     }
 
     private void GetEnemy()
