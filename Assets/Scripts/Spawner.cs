@@ -27,7 +27,7 @@ public class Spawner : MonoBehaviour
         float randomYAngle = Random.Range(0f, 360f);
         SpawnPoint certainSpawnPoint = GetSpawnPoint();
         Enemy certainEnemy = certainSpawnPoint.Enemy;
-        Enemy enemy = Instantiate(certainEnemy, certainSpawnPoint.transform.position, Quaternion.Euler(0f, randomYAngle, 0f));
+        Enemy enemy = Instantiate(certainEnemy, certainSpawnPoint.transform.position, Quaternion.identity);
         DefineTarget(enemy, certainSpawnPoint);
 
         return enemy;
