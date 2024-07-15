@@ -8,8 +8,8 @@ public class Spawner : MonoBehaviour
     [SerializeField] private List<SpawnPoint> _spawnPoints;
 
     private ObjectPool<Enemy> _enemiesPool;
-    private int _enemyPoolCapacity = 25;
-    private int _enemyPoolMaxSize = 25;
+    private int _enemyPoolCapacity = 10;
+    private int _enemyPoolMaxSize = 10;
     private int _repeatRate = 2;
 
     private void Awake()
@@ -24,7 +24,6 @@ public class Spawner : MonoBehaviour
 
     private Enemy CreateEnemy()
     {
-        float randomYAngle = Random.Range(0f, 360f);
         SpawnPoint certainSpawnPoint = GetSpawnPoint();
         Enemy certainEnemy = certainSpawnPoint.Enemy;
         Enemy enemy = Instantiate(certainEnemy, certainSpawnPoint.transform.position, Quaternion.identity);
@@ -36,13 +35,25 @@ public class Spawner : MonoBehaviour
     private void RemoveEnemy(Enemy enemy)
     {
         _enemiesPool.Release(enemy);
+
+        enemy.Removed -= RemoveEnemy;
     }
 
     private void GetFromPool(Enemy enemy)
     {
-        enemy.gameObject.SetActive(true);
+        for (int i = 0; i < _spawnPoints.Count; i++)
+        {
+            if (enemy == _spawnPoints[i].Enemy)
+            {
+                DefineTarget(enemy, _spawnPoints[i]);
+                enemy.transform.position = new Vector3(_spawnPoints[i].transform.position.x, _spawnPoints[i].transform.position.y, _spawnPoints[i].transform.position.z);
+            }
+        }
 
+        enemy.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        enemy.gameObject.SetActive(true);
         StartCoroutine(enemy.Move());
+        Debug.Log("out of pool");
     }
 
     private void ReleaseInPool(Enemy enemy)
@@ -52,7 +63,8 @@ public class Spawner : MonoBehaviour
 
     private SpawnPoint GetSpawnPoint()
     {
-        int spawnPoint = Random.Range(0, _spawnPoints.Count);
+        int minSpawnPointIndex = 0;
+        int spawnPoint = Random.Range(minSpawnPointIndex, _spawnPoints.Count);
 
         return _spawnPoints[spawnPoint];
     }
@@ -77,5 +89,6 @@ public class Spawner : MonoBehaviour
     private void GetEnemy()
     {
         Enemy newEnemy = _enemiesPool.Get();
+        newEnemy.Removed += RemoveEnemy;
     }
 }
