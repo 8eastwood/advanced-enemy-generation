@@ -7,6 +7,9 @@ public class Enemy : MonoBehaviour
 {
     private float _speed = 5f;
     private Target _target;
+    private Vector3 _startPosition;
+
+    public Vector3 StartPosition => _startPosition; 
 
     public event Action<Enemy> Removed;
 
@@ -39,10 +42,14 @@ public class Enemy : MonoBehaviour
         _target = target;
     }
 
+    public void GetStartPosition(SpawnPoint spawnPoint)
+    {
+        _startPosition = spawnPoint.transform.position;
+    }
+
     private IEnumerator Destroy()
     {
         yield return null;
         Removed?.Invoke(this);
-
     }
 }

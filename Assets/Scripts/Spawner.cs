@@ -28,6 +28,7 @@ public class Spawner : MonoBehaviour
         Enemy certainEnemy = certainSpawnPoint.Enemy;
         Enemy enemy = Instantiate(certainEnemy, certainSpawnPoint.transform.position, Quaternion.identity);
         DefineTarget(enemy, certainSpawnPoint);
+        DefineStartPosition(enemy, certainSpawnPoint);
 
         return enemy;
     }
@@ -35,30 +36,22 @@ public class Spawner : MonoBehaviour
     private void RemoveEnemy(Enemy enemy)
     {
         _enemiesPool.Release(enemy);
+        Debug.Log("out of pool");
 
         enemy.Removed -= RemoveEnemy;
     }
 
     private void GetFromPool(Enemy enemy)
     {
-        for (int i = 0; i < _spawnPoints.Count; i++)
-        {
-            if (enemy == _spawnPoints[i].Enemy)
-            {
-                DefineTarget(enemy, _spawnPoints[i]);
-                enemy.transform.position = new Vector3(_spawnPoints[i].transform.position.x, _spawnPoints[i].transform.position.y, _spawnPoints[i].transform.position.z);
-            }
-        }
-
-        enemy.GetComponent<Rigidbody>().velocity = Vector3.zero;
         enemy.gameObject.SetActive(true);
+        enemy.transform.position = enemy.StartPosition;
         StartCoroutine(enemy.Move());
-        Debug.Log("out of pool");
     }
 
     private void ReleaseInPool(Enemy enemy)
     {
         enemy.gameObject.SetActive(false);
+        Debug.Log("back in pool");
     }
 
     private SpawnPoint GetSpawnPoint()
@@ -84,6 +77,11 @@ public class Spawner : MonoBehaviour
     private void DefineTarget(Enemy enemy, SpawnPoint spawnPoint)
     {
         enemy.GetTarget(spawnPoint.Target);
+    }
+
+    private void DefineStartPosition(Enemy enemy, SpawnPoint spawnPoint)
+    {
+        enemy.GetStartPosition(spawnPoint);
     }
 
     private void GetEnemy()
