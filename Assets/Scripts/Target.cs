@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class Target : MonoBehaviour
 {
-    [SerializeField] Target target;
+    [SerializeField] private DestinationPoint _destinationPoint;
 
-    private float _speed = 1f;
+    private float _speed = 5f;
 
     private void Start()
     {
@@ -16,7 +16,8 @@ public class Target : MonoBehaviour
     {
         while (true)
         {
-            transform.Translate(Vector3.forward * _speed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, _destinationPoint.transform.position, _speed * Time.deltaTime);
+            transform.LookAt(_destinationPoint.transform.position);
 
             yield return null;
         }
