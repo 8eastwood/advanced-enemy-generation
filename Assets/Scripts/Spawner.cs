@@ -8,8 +8,8 @@ public class Spawner : MonoBehaviour
     [SerializeField] private List<SpawnPoint> _spawnPoints;
 
     private ObjectPool<Enemy> _enemiesPool;
-    private int _enemyPoolCapacity = 10;
-    private int _enemyPoolMaxSize = 10;
+    private int _enemyPoolCapacity = 20;
+    private int _enemyPoolMaxSize = 20;
     private int _repeatRate = 2;
 
     private void Awake()
@@ -36,8 +36,6 @@ public class Spawner : MonoBehaviour
     private void RemoveEnemy(Enemy enemy)
     {
         _enemiesPool.Release(enemy);
-        Debug.Log("out of pool");
-
         enemy.Removed -= RemoveEnemy;
     }
 
@@ -51,7 +49,6 @@ public class Spawner : MonoBehaviour
     private void ReleaseInPool(Enemy enemy)
     {
         enemy.gameObject.SetActive(false);
-        Debug.Log("back in pool");
     }
 
     private SpawnPoint GetSpawnPoint()

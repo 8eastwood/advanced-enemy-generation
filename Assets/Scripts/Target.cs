@@ -12,12 +12,16 @@ public class Target : MonoBehaviour
         StartCoroutine(TartgetMove());
     }
 
+    private void Update()
+    {
+        transform.LookAt(_destinationPoint.transform.position);
+    }
+
     public IEnumerator TartgetMove()
     {
         while (true)
         {
             transform.position = Vector3.MoveTowards(transform.position, _destinationPoint.transform.position, _speed * Time.deltaTime);
-            transform.LookAt(_destinationPoint.transform.position);
 
             yield return null;
         }
