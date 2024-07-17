@@ -14,7 +14,7 @@ public class Spawner : MonoBehaviour
 
     private void Awake()
     {
-        _enemiesPool = new ObjectPool<Enemy>(CreateEnemy, GetFromPool, ReleaseInPool, Destroy, true, _enemyPoolCapacity, _enemyPoolMaxSize);
+        _enemiesPool = new ObjectPool<Enemy>(CreateEnemy, ActionOnGet, ActionOnRelease, Destroy, true, _enemyPoolCapacity, _enemyPoolMaxSize);
     }
 
     private void Start()
@@ -39,24 +39,23 @@ public class Spawner : MonoBehaviour
         enemy.Removed -= RemoveEnemy;
     }
 
-    private void GetFromPool(Enemy enemy)
+    private void ActionOnGet(Enemy enemy)
     {
         enemy.gameObject.SetActive(true);
         enemy.transform.position = enemy.StartPosition;
         StartCoroutine(enemy.Move());
     }
 
-    private void ReleaseInPool(Enemy enemy)
+    private void ActionOnRelease(Enemy enemy)
     {
         enemy.gameObject.SetActive(false);
     }
 
     private SpawnPoint GetSpawnPoint()
     {
-        int minSpawnPointIndex = 0;
-        int spawnPoint = Random.Range(minSpawnPointIndex, _spawnPoints.Count);
+        int spawnPoint;
 
-        return _spawnPoints[spawnPoint];
+        return _spawnPoints[spawnPoint = Random.Range(0, _spawnPoints.Count)];
     }
 
     private IEnumerator SpawnEnemyWithRate(int repeatRate)
@@ -73,12 +72,12 @@ public class Spawner : MonoBehaviour
 
     private void DefineTarget(Enemy enemy, SpawnPoint spawnPoint)
     {
-        enemy.GetTarget(spawnPoint.Target);
+        enemy.RecieveTarget(spawnPoint.Target);
     }
 
     private void DefineStartPosition(Enemy enemy, SpawnPoint spawnPoint)
     {
-        enemy.GetStartPosition(spawnPoint);
+        enemy.RecieveStartPosition(spawnPoint);
     }
 
     private void GetEnemy()

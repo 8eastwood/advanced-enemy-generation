@@ -9,13 +9,16 @@ public class Enemy : MonoBehaviour
     private Target _target;
     private Vector3 _startPosition;
 
-    public Vector3 StartPosition => _startPosition; 
+    public Vector3 StartPosition => _startPosition;
 
     public event Action<Enemy> Removed;
 
     private void Update()
     {
-        transform.LookAt(_target.transform.position);
+        if (_target != null)
+        {
+            transform.LookAt(_target.transform.position);
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -37,12 +40,12 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void GetTarget(Target target)
+    public void RecieveTarget(Target target)
     {
         _target = target;
     }
 
-    public void GetStartPosition(SpawnPoint spawnPoint)
+    public void RecieveStartPosition(SpawnPoint spawnPoint)
     {
         _startPosition = spawnPoint.transform.position;
     }
