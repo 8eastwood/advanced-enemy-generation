@@ -11,10 +11,18 @@ public class Spawner : MonoBehaviour
     private int _enemyPoolCapacity = 20;
     private int _enemyPoolMaxSize = 20;
     private int _repeatRate = 2;
+    private GameObject _object;
 
     private void Awake()
     {
-        _enemiesPool = new ObjectPool<Enemy>(CreateEnemy, ActionOnGet, ActionOnRelease, Destroy, true, _enemyPoolCapacity, _enemyPoolMaxSize);
+        _enemiesPool = new ObjectPool<Enemy>(
+            createFunc: () => CreateEnemy(),
+            actionOnGet: (enemy) => ActionOnGet(enemy),
+            actionOnRelease: (enemy) => ActionOnRelease(enemy),
+            actionOnDestroy: (enemy) => Destroy(enemy),
+            collectionCheck: true,
+            defaultCapacity: _enemyPoolCapacity,
+            maxSize: _enemyPoolMaxSize);
     }
 
     private void Start()
@@ -27,8 +35,8 @@ public class Spawner : MonoBehaviour
         SpawnPoint certainSpawnPoint = GetSpawnPoint();
         Enemy certainEnemy = certainSpawnPoint.Enemy;
         Enemy enemy = Instantiate(certainEnemy, certainSpawnPoint.transform.position, Quaternion.identity);
-        DefineTarget(enemy, certainSpawnPoint);
-        DefineStartPosition(enemy, certainSpawnPoint);
+        enemy.RecieveTarget(certainSpawnPoint.Target);
+        enemy.RecieveStartPosition(certainSpawnPoint);
 
         return enemy;
     }
@@ -43,7 +51,6 @@ public class Spawner : MonoBehaviour
     {
         enemy.gameObject.SetActive(true);
         enemy.transform.position = enemy.StartPosition;
-        StartCoroutine(enemy.Move());
     }
 
     private void ActionOnRelease(Enemy enemy)
@@ -53,9 +60,7 @@ public class Spawner : MonoBehaviour
 
     private SpawnPoint GetSpawnPoint()
     {
-        int spawnPoint;
-
-        return _spawnPoints[spawnPoint = Random.Range(0, _spawnPoints.Count)];
+        return _spawnPoints[Random.Range(0, _spawnPoints.Count)];
     }
 
     private IEnumerator SpawnEnemyWithRate(int repeatRate)
@@ -68,16 +73,6 @@ public class Spawner : MonoBehaviour
 
             GetEnemy();
         }
-    }
-
-    private void DefineTarget(Enemy enemy, SpawnPoint spawnPoint)
-    {
-        enemy.RecieveTarget(spawnPoint.Target);
-    }
-
-    private void DefineStartPosition(Enemy enemy, SpawnPoint spawnPoint)
-    {
-        enemy.RecieveStartPosition(spawnPoint);
     }
 
     private void GetEnemy()

@@ -5,13 +5,20 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Enemy : MonoBehaviour
 {
+    [SerializeField] private int _delay = 0;
+
     private float _speed = 5f;
-    private Target _target;
+    private Target _target = null;
     private Vector3 _startPosition;
+
+    public event Action<Enemy> Removed;
 
     public Vector3 StartPosition => _startPosition;
 
-    public event Action<Enemy> Removed;
+    private void Start()
+    {
+        StartCoroutine(Move());
+    }
 
     private void Update()
     {
@@ -25,18 +32,21 @@ public class Enemy : MonoBehaviour
     {
         if (collision.gameObject.TryGetComponent(out Target target))
         {
-            Debug.Log("collision happend");
-            StartCoroutine(Destroy());
+            StartCoroutine(Destroy(_delay));
         }
     }
 
-    public IEnumerator Move()
+    private IEnumerator Move()
     {
-        while (isActiveAndEnabled)
+        if (_target != null)
         {
-            transform.position = Vector3.MoveTowards(transform.position, _target.transform.position, _speed * Time.deltaTime);
+            while (isActiveAndEnabled)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, _target.transform.position,
+                    _speed * Time.deltaTime);
 
-            yield return null;
+                yield return null;
+            }
         }
     }
 
@@ -50,9 +60,9 @@ public class Enemy : MonoBehaviour
         _startPosition = spawnPoint.transform.position;
     }
 
-    private IEnumerator Destroy()
+    private IEnumerator Destroy(int delay)
     {
-        yield return null;
+        yield return new WaitForSeconds(delay);
         Removed?.Invoke(this);
     }
 }

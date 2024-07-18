@@ -20,14 +20,15 @@ public class Target : MonoBehaviour
 
     public IEnumerator TartgetMove()
     {
-        while (true)
+        while (enabled)
         {
             if (transform.position == _wayPoints[_currentWayPoint].position)
             {
                 _currentWayPoint = (_currentWayPoint + 1) % _wayPoints.Length;
             }
 
-            transform.position = Vector3.MoveTowards(transform.position, _wayPoints[_currentWayPoint].transform.position, _speed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, 
+                _wayPoints[_currentWayPoint].transform.position, _speed * Time.deltaTime);
 
             yield return null;
         }
