@@ -17,7 +17,7 @@ public class Spawner : MonoBehaviour
     {
         _enemiesPool = new ObjectPool<Enemy>(
             createFunc: () => CreateEnemy(),
-            actionOnGet: (enemy) => ActionOnGet(enemy),
+            actionOnGet: (enemy) => Initialization(enemy),
             actionOnRelease: (enemy) => ActionOnRelease(enemy),
             actionOnDestroy: (enemy) => Destroy(enemy),
             collectionCheck: true,
@@ -47,7 +47,7 @@ public class Spawner : MonoBehaviour
         enemy.Removed -= RemoveEnemy;
     }
 
-    private void ActionOnGet(Enemy enemy)
+    private void Initialization(Enemy enemy)
     {
         enemy.gameObject.SetActive(true);
         enemy.transform.position = enemy.StartPosition;
@@ -71,11 +71,11 @@ public class Spawner : MonoBehaviour
         {
             yield return wait;
 
-            GetEnemy();
+            SpawnEnemy();
         }
     }
 
-    private void GetEnemy()
+    private void SpawnEnemy()
     {
         Enemy newEnemy = _enemiesPool.Get();
         newEnemy.Removed += RemoveEnemy;
