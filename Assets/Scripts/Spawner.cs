@@ -11,14 +11,13 @@ public class Spawner : MonoBehaviour
     private int _enemyPoolCapacity = 20;
     private int _enemyPoolMaxSize = 20;
     private int _repeatRate = 2;
-    private GameObject _object;
 
     private void Awake()
     {
         _enemiesPool = new ObjectPool<Enemy>(
             createFunc: () => CreateEnemy(),
             actionOnGet: (enemy) => Initialization(enemy),
-            actionOnRelease: (enemy) => ActionOnRelease(enemy),
+            actionOnRelease: (enemy) => Disable(enemy),
             actionOnDestroy: (enemy) => Destroy(enemy),
             collectionCheck: true,
             defaultCapacity: _enemyPoolCapacity,
@@ -53,7 +52,7 @@ public class Spawner : MonoBehaviour
         enemy.transform.position = enemy.StartPosition;
     }
 
-    private void ActionOnRelease(Enemy enemy)
+    private void Disable(Enemy enemy)
     {
         enemy.gameObject.SetActive(false);
     }
@@ -67,7 +66,7 @@ public class Spawner : MonoBehaviour
     {
         var wait = new WaitForSeconds(repeatRate);
 
-        while (true)
+        while (enabled)
         {
             yield return wait;
 

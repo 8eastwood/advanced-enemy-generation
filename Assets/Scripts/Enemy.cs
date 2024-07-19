@@ -36,20 +36,6 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private IEnumerator Move()
-    {
-        if (_target != null)
-        {
-            while (isActiveAndEnabled)
-            {
-                transform.position = Vector3.MoveTowards(transform.position, _target.transform.position,
-                    _speed * Time.deltaTime);
-
-                yield return null;
-            }
-        }
-    }
-
     public void RecieveTarget(Target target)
     {
         _target = target;
@@ -64,5 +50,19 @@ public class Enemy : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         Removed?.Invoke(this);
+    }
+
+    private IEnumerator Move()
+    {
+        if (_target != null)
+        {
+            while (isActiveAndEnabled)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, _target.transform.position,
+                    _speed * Time.deltaTime);
+
+                yield return null;
+            }
+        }
     }
 }
